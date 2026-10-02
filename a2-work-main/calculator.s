@@ -29,7 +29,7 @@ main:
   movb op, %r12b # load the operation for comparisons
   movq a, %r13  # and the LHS
 
-  # TODO: Analyze operation and execute
+  # Analyze operation and execute
 
   # if (op == '+')
   cmp $'+', %r12b
@@ -46,6 +46,9 @@ main:
   # if (op == '/')
   cmp $'/', %r12b
   je division
+
+  # else
+  jmp print_error
 
 addition:
   # a + b
@@ -75,19 +78,21 @@ print_result:
   movq %r13, %rsi
   mov $0, %al
   call printf
+  mov $0, %rax
   jmp done
 
-  # TODO: Print error if operation cannot be (safely) performed
+# Print error if operation cannot be (safely) performed
+print_error:
+  movq $error_fmt, %rdi
+  movb %r12b, %sil
+  mov $0, %al
+  call printf
+  mov $1, %rax
+  jmp done
 
-  # else if (op_char == '-') {
-  #  ...
-  # }
-  # ...
-  # else {
-  #   // print error
-  #   // return 1 from main
-  # }
 
+
+  
 # Function epilogue
 done:
   leave
@@ -99,7 +104,9 @@ done:
 output_fmt: 
   .asciz "%ld\n"
 scanf_fmt: 
-  .asciz "%ld %c %ld"  # TODO: modify as needed
+  .asciz "%ld %c %ld"  # modify as needed
+error_fmt:
+  .asciz "Error: Invalid Operator: '%c'\n"
 
 # "Slots" for scanf
 a:  .quad 0
