@@ -43,6 +43,10 @@ main:
   cmp $'*', %r12b
   je multiplication
 
+  # if (op == '/')
+  cmp $'/', %r12b
+  je division
+
 addition:
   # a + b
   addq b, %r13
@@ -56,6 +60,13 @@ subtraction:
 multiplication:
   # a * b
   imulq b, %r13
+  jmp print_result
+
+division:
+  # a / b
+  movq a, %rax # move a to %rax as divisor
+  idivq b
+  movq %rax, %r13  # move quotient from %rax to %r13
   jmp print_result
 
 print_result:
