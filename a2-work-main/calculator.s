@@ -72,6 +72,7 @@ division:
 
   # a / b
   movq a, %rax # move a to %rax as divisor
+  cqto # sign extend %rax
   idivq b
   movq %rax, %r13  # move quotient from %rax to %r13
   jmp print_result
