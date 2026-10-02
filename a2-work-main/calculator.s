@@ -35,10 +35,18 @@ main:
   cmp $'+', %r12b
   je addition
 
+  # if (op == '-')
+  cmp $'-', %r12b
+  je subtraction
 
 addition:
   # a + b
   add b, %r13
+  jmp print_result
+
+subtraction:
+  # a - b
+  sub b, %r13
   jmp print_result
 
 print_result:
