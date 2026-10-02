@@ -85,7 +85,6 @@ print_result:
 # Print error if operation cannot be (safely) performed
 print_error:
   movq $error_fmt, %rdi
-  movb %r12b, %sil # set operator as printf argument
   mov $0, %al
   call printf
 
@@ -105,7 +104,7 @@ output_fmt:
 scanf_fmt: 
   .asciz "%ld %c %ld"  # modify as needed
 error_fmt:
-  .asciz "Error: Invalid Operator: '%c'\n"
+  .asciz "Unknown operation\n"
 
 # "Slots" for scanf
 a:  .quad 0
