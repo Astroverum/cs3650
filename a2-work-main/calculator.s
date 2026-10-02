@@ -39,6 +39,10 @@ main:
   cmp $'-', %r12b
   je subtraction
 
+  # if (op == '*')
+  cmp $'*', %r12b
+  je multiplication
+
 addition:
   # a + b
   addq b, %r13
@@ -47,6 +51,11 @@ addition:
 subtraction:
   # a - b
   subq b, %r13
+  jmp print_result
+
+multiplication:
+  # a * b
+  imulq b, %r13
   jmp print_result
 
 print_result:
