@@ -26,18 +26,31 @@ main:
   xorb %al, %al
   call scanf
 
-  movb op, ??? # TODO: load the operation for comparisons
-  movq a, ???  # TODO: and the LHS
+  movb op, %r12b # load the operation for comparisons
+  movq a, %r13  # and the LHS
 
   # TODO: Analyze operation and execute
 
-  # TODO: Print result
+  # if (op == '+')
+  cmp $'+', %r12b
+  je addition
+
+
+addition:
+  # a + b
+  add b, %r13
+  jmp print_result
+
+print_result:
+  # Print result
+  movq $output_fmt, %rdi
+  movq %r13, %rsi
+  mov $0, %al
+  call printf
+  jmp done
 
   # TODO: Print error if operation cannot be (safely) performed
 
-  # if (op_char == '+') {
-  #   ...
-  # }
   # else if (op_char == '-') {
   #  ...
   # }
@@ -47,10 +60,10 @@ main:
   #   // return 1 from main
   # }
 
-  # Function epilogue
+# Function epilogue
+done:
   leave
   ret
-
 
 # Start of the data section
 .data
