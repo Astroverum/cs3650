@@ -66,6 +66,10 @@ multiplication:
   jmp print_result
 
 division:
+  # check if b = 0
+  cmpq $0, b
+  je print_div_error
+
   # a / b
   movq a, %rax # move a to %rax as divisor
   idivq b
@@ -91,6 +95,14 @@ print_error:
   mov $1, %rax # set exit code to 1
   jmp done
 
+print_div_error:
+  movq $zero_division_error_fmt, %rdi
+  mov $0, %al
+  call printf
+
+  mov $1, %rax # set exit code to 1
+  jmp done
+
 # Function epilogue
 done:
   leave
@@ -105,6 +117,8 @@ scanf_fmt:
   .asciz "%ld %c %ld"  # modify as needed
 error_fmt:
   .asciz "Unknown operation\n"
+zero_division_error_fmt:
+  .asciz "Error: Division by Zero\n"
 
 # "Slots" for scanf
 a:  .quad 0
