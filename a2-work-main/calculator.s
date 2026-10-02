@@ -75,24 +75,23 @@ division:
 print_result:
   # Print result
   movq $output_fmt, %rdi
-  movq %r13, %rsi
+  movq %r13, %rsi # set result as printf argument
   mov $0, %al
   call printf
-  mov $0, %rax
+
+  mov $0, %rax # set exit code to 0
   jmp done
 
 # Print error if operation cannot be (safely) performed
 print_error:
   movq $error_fmt, %rdi
-  movb %r12b, %sil
+  movb %r12b, %sil # set operator as printf argument
   mov $0, %al
   call printf
-  mov $1, %rax
+
+  mov $1, %rax # set exit code to 1
   jmp done
 
-
-
-  
 # Function epilogue
 done:
   leave
