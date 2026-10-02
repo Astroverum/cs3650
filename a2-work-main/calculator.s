@@ -41,12 +41,12 @@ main:
 
 addition:
   # a + b
-  add b, %r13
+  addq b, %r13
   jmp print_result
 
 subtraction:
   # a - b
-  sub b, %r13
+  subq b, %r13
   jmp print_result
 
 print_result:
